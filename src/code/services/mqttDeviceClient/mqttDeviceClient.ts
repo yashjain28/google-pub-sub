@@ -12,11 +12,20 @@
  * @param {CbServer.Resp} resp
  */
 
-global.crypto = require("crypto-js");
-global.crypto.getRandomValues = require("polyfill-crypto.getrandomvalues");
+// import { createSign } from "crypto-browserify";
+// import getRandomValues from "polyfill-crypto.getrandomvalues";
 
-const buffer = require("buffer/").Buffer;
-const jwt = require("jsonwebtoken");
+// global.crypto = {
+//   getRandomValues: getRandomValues,
+//   createSign: createSign,
+// };
+log("start");
+import getRandomValues from "polyfill-crypto.getrandomvalues";
+
+global.crypto = { getRandomValues };
+log("hey", crypto, typeof crypto, typeof crypto.createSign);
+
+import jwt from "jsonwebtoken";
 //global.crypto = require("crypto-js");
 const prv_key = `-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCp12e3sMbr0Q9F
@@ -96,6 +105,7 @@ function mqttDeviceClient(req, resp) {
   var info =
     "Data on device: " + deviceData.deviceID + " is " + deviceData.data;
   var client = new MQTT.Client(options);
+  const TOPIC = "projects/clearblade-ipm/topics/mqtt-testing";
   client.publish(TOPIC, info).then(
     function (resolve) {
       log(resolve);

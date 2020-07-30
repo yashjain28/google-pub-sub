@@ -1,11 +1,11 @@
 {
-    "auto_balance": false,
-    "auto_restart": false,
-    "concurrency": 0,
-    "dependencies": "log,mqtt",
-    "execution_timeout": 60,
-    "logging_enabled": true,
-    "name": "mqttDeviceClient",
-    "params": [],
-    "run_user": ""
+  "auto_balance": false,
+  "auto_restart": false,
+  "concurrency": 0,
+  "dependencies": "log,mqtt,cryptoLib",
+  "execution_timeout": 60,
+  "logging_enabled": true,
+  "name": "mqttDeviceClient",
+  "params": [],
+  "run_user": ""
 }

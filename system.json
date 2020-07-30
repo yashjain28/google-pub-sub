@@ -3,7 +3,7 @@
     "description": "",
     "messaging_url": "platform.clearblade.com:1883",
     "name": "google-iot-mqtt-client",
-    "platform_url": "https://platform.clearblade.com",
-    "system_key": "8ebd8ef20be2e9d3f5c2a5bcc34f",
-    "system_secret": "8EBD8EF20BB283ADA2BECE97F5D101"
+    "platform_url": "http://127.0.0.1:9000",
+    "system_key": "e8f099f20bdad787ebb8bbd5e94d",
+    "system_secret": "E8F099F20B94DB80CEE9BCC9AA4D"
 }
