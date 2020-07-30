@@ -1,0 +1,114 @@
+{
+  "name": "azure-poc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build:all": "webpack --config cb-dev-kit/webpack.config.js --config-name all",
+    "build:all-portals": "webpack --config cb-dev-kit/webpack.config.js --config-name allPortals",
+    "build:portal": "webpack --config cb-dev-kit/webpack.config.js --config-name portal",
+    "build:all-services": "webpack --config cb-dev-kit/webpack.config.js --config-name allServices",
+    "build:service": "webpack --config cb-dev-kit/webpack.config.js --config-name service",
+    "build:all-widgets": "webpack --config cb-dev-kit/webpack.config.js --config-name allWidgets",
+    "build:widget": "webpack --config cb-dev-kit/webpack.config.js --config-name widget",
+    "build:internal-resource": "webpack --config cb-dev-kit/webpack.config.js --config-name internalResource",
+    "build:all-libraries": "webpack --config cb-dev-kit/webpack.config.js --config-name allLibraries",
+    "build:library": "webpack --config cb-dev-kit/webpack.config.js --config-name library",
+    "start:clearblade-hot-reload": "npm-run-all --parallel start:watch start:server",
+    "start:watch": "webpack --config cb-dev-kit/webpack.config.js --config-name clearbladeHotReload",
+    "start:server": "clearblade-hot-reload start",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint src/**/*.ts[x] --max-warnings 0",
+    "typecheck": "tsc --project tsconfig.json"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "@clearblade/cb-dev-kit": "^1.1.7",
+    "@clearblade/code-service-types": "^1.2.0",
+    "@types/jest": "^24.9.1",
+    "@types/json-rules-engine": "^4.1.0",
+    "@types/node": "^11.15.12",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-frame-component": "^4.1.1",
+    "@types/styled-components": "^5.1.0",
+    "@types/uuid": "^3.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "ajv": "^6.12.2",
+    "babel-jest": "^24.1.0",
+    "babel-loader": "^8.1.0",
+    "chalk": "^2.4.2",
+    "chokidar": "^2.1.5",
+    "css-loader": "^3.5.3",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "file-loader": "^6.0.0",
+    "jest": "^24.1.0",
+    "jest-cli": "^24.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^1.2.1",
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/typescript",
+      [
+        "@babel/env",
+        {
+          "modules": false
+        }
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "setupFiles": [
+      "./src/setupTests.ts"
+    ]
+  },
+  "dependencies": {
+    "@clearblade/asset-monitor": "^3.8.5",
+    "@clearblade/promise-polyfill": "^1.0.1",
+    "@material-ui/core": "^4.10.0",
+    "@material-ui/icons": "^4.9.1",
+    "core-js": "^3.6.5",
+    "crypto-js": "^4.0.0",
+    "dat.gui": "^0.7.7",
+    "json-rules-engine": "^4.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mqtt": "^4.1.0",
+    "polyfill-crypto.getrandomvalues": "^1.0.0",
+    "react-frame-component": "^4.1.2",
+    "styled-components": "^5.1.1",
+    "three": "^0.110.0",
+    "typeface-roboto": "0.0.75",
+    "uuid": "^3.4.0"
+  }
+}
