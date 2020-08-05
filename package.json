@@ -1,7 +1,7 @@
 {
-  "name": "azure-poc",
+  "name": "google-iot-mqtt-client",
+  "description": "This is an MQTT client library to publish messages as a device to Google Cloud IoT from ClearBlade platform",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "test": "jest",
     "build:all": "webpack --config cb-dev-kit/webpack.config.js --config-name all",
@@ -110,5 +110,42 @@
     "three": "^0.110.0",
     "typeface-roboto": "0.0.75",
     "uuid": "^3.4.0"
-  }
+  },
+  "main": "code/services/mqttDeviceClient",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yashjain28/google-iot-mqtt-client.git"
+  },
+  "asset_types": [
+    "Code Libraries",
+    "Code Services"
+  ],
+  "keywords": [
+    "mqtt",
+    "client",
+    "publish",
+    "device",
+    "google",
+    "iot",
+    "cloud",
+    "certificate"
+  ],
+  "prog_lang": [
+    "Javascript"
+  ],
+  "clouds": [],
+  "things": [],
+  "domains": [],
+  "protocols": [
+    "mqtt"
+  ],
+  "gateways": [],
+  "author": "Yash Jain <community@clearblade.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yashjain28/google-iot-mqtt-client/issues"
+  },
+  "homepage": "https://github.com/yashjain28/google-iot-mqtt-client#readme",
+  "image_url": "https://raw.githubusercontent.com/yashjain28/google-iot-mqtt-client/master/banner.png",
+  "private": false
 }
