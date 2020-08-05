@@ -1,0 +1,7 @@
+{
+    "api": "",
+    "dependencies": "",
+    "description": "A configuration library to connect with Google Cloud IoT",
+    "name": "GoogleIoTConfig",
+    "visibility": "system"
+}

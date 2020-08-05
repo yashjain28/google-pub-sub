@@ -44,11 +44,14 @@ const messageType = `events` || GoogleIoTConfig.MESSAGE_TYPE;
 const mqttClientId = `projects/${projectId}/locations/${region}/registries/${registryId}/devices/${deviceId}`;
 const private_key = GoogleIoTConfig.PRIVATE_KEY;
 const username = GoogleIoTConfig.USERNAME;
+const mqttTopic = `/devices/${deviceId}/${messageType}`;
 
-function mqttDeviceClient(req, resp) {
+function mqttDeviceClientSubscribe(req, resp) {
   // These are parameters passed into the code service
   log("Google Cloud IoT Core MQTT example.");
+  ClearBlade.init({ request: req });
 
+  var messaging = ClearBlade.Messaging();
   var params = req.params;
   var options = {
     address: mqttBridgeHostname,
@@ -57,28 +60,32 @@ function mqttDeviceClient(req, resp) {
     use_tls: true,
     username: username,
     password: createJwt(projectId, private_key, algorithm),
+    qos: 1,
   };
-  var deviceData = params.data || {
-    data: 91,
-    deviceID: "myDevice",
-  };
-  var info =
-    typeof deviceData !== "string" ? JSON.stringify(deviceData) : deviceData;
-  var client = new MQTT.Client(options);
-  const TOPIC = `/devices/${deviceId}/${messageType}`;
 
-  client.publish(TOPIC, info).then(
-    function (resolve) {
-      log(resolve);
-      resp.success("success");
-    },
-    function (reason) {
-      log(
-        "failed to publish device data " + deviceData + ": " + reason.message
-      );
-      resp.error("failure");
-    }
-  );
+  var client = new MQTT.Client(options);
+
+  const TOPIC = mqttTopic;
+  function onMessage(topic, message) {
+    log("received message on topic " + topic + ": ", message);
+    messaging.publish(
+      "test",
+      "received message on topic " + JSON.stringify(message)
+    );
+  }
+
+  function failureFn(reason) {
+    log("failed to subscribe: " + reason.message);
+    resp.error("failed to subscribe: " + reason.message);
+  }
+
+  client.subscribe(`/devices/${deviceId}/config`, onMessage).catch(failureFn);
+
+  client
+    .subscribe(`/devices/${deviceId}/commands/#`, onMessage)
+    .catch(failureFn);
+
+  client.subscribe(TOPIC, onMessage).catch(failureFn);
 }
 
-global.mqttDeviceClient = mqttDeviceClient;
+global.mqttDeviceClientSubscribe = mqttDeviceClientSubscribe;

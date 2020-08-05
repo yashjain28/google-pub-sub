@@ -31399,7 +31399,6 @@ global.crypto = {
   getRandomValues: polyfill_crypto_getrandomvalues__WEBPACK_IMPORTED_MODULE_0___default.a
 };
 
-var abc = "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCp12e3sMbr0Q9F\n9BCT9EX/7RtV8uPVPGIZhJjZr9sB3hUz9/Uf3TSohHLyCP/Fqli3+IyW5z/R+S8V\n1iGfLZppOGVqT6pKr4nbwTrp5iLFEf0qLEHk3KQTqd4x8Q+l91pjmggrAhE1O24j\nVnAlc9HzTDXp5lFoZz8XXQpk0+3KcxoK0gOFT91xAVhHWsPOIiwxkxKEOwt12+b3\nc+7IHhUa9Xk+YGZajpxurdZZjJDDeG39HXz4eY0FtkljGM87ol7/gpQ2aJRcT6NF\n3vsHpwY22PO8Tr2BDwGJdHhnJO2Oi4Y/59ITygA1n2oJVlp1FMjUS6DD+Y7GR2If\n7H2xqq6VAgMBAAECggEARFYQPD+begyO6aWO+gjiFVxQkF9/Pi/ihMPuQEBajUDP\nJS7SaPS3GEraePoX929X7QXLg3geHJz3TgDvXD2cEFQJsiHFsfE5NbtkufHH8aUQ\nSOSvyqbgOa0yYsPMeQmyS7sRKETXqaR05zEDRH56bjsuwiLShIBuSTc9VF5VIgxP\n9Rn92tDsdRYw+6l8AljEVqQFO90lZ7a2mFzvNizQoSRH4OMObeWhDhR8cP7BqHon\nTup8CTxwBVARQL2JFR5nyf52wgyZW0QCbzUQlcSDuQaCnD2LG5LaoObfZEYm5u51\nNPmoOTKYod2spCFf3Zyrz3nHC1WQXm9hqM/TVJg3jQKBgQDYtOKRcBpMJJh5XpPW\nWAvUkoUthblD6eTaQAsfKNO1a/htfY1mkRGVr0icDJxFsNS4XXhFibEtN5cpjwHB\nrLI+JUWCvrhXTOkwgEfmTQBUh1RVD2JJJgHMGZ5hy+yhOms8sR/WMT9amS+tjlUw\n5wflixV1d1IWPSNb0TwTEAx2pwKBgQDIoyCIFXk4+LyTXDR9Xr2mUDqBdJOSguL1\nxlrsJ3DAupTEo0XHNQcFhvcSTp3ECW2WXyeZtB2DnyvJy3Yb/QQ3QWqpQL7MENVe\njpFnUeCg/d89xNpxLg29oNRd+JvxcqBW4hSPxiB/TCA4Q5vCKS9UO1Kq+R4SOB35\ntDvlMgZUYwKBgFW6SR8L3/tbRs5MseNLdXKke/bkPcQ2FQiZ6UxsVEQi8GYwEu4O\nWYyDiQ/ilTekmqJMp7WqoOKoaS5RmnpJnUGkcPkmBbrTfDRpqwfaUlUeLChyK4mQ\ndYmOYO+DQpsNhzq9P0D2vn9Stl/MPLtZye/us5CCoYCWsxQxk7he0u9lAoGBAKL8\nERM7Dmx/cwDqKCGn8rvF9KDxCGg+Nwycg4PPTkLhzrQmRirbIscUqmSOxI5ZclJz\nHgI4VLl1debJhzqZQPF6DKFNXTD8g7f6bJfX5Xgig1T0Mtc6KCNhIOLtcBCloyax\nJS7eLcv7FTlfgoopVq9AOZl2IT1/pKoSBY3cI1QtAoGAUsgOF/uUFC57Lk0+z13l\n2Y8uJ0e2HEPaDbo85+E1xdXRRpGadT1oTN/wEjQSe6xX6u4JTD8IwUiKtLPN3yb2\nTzWMxt4pJjXfjKd+LDlGHBYTwDeGRjOyNCISNlvCci5gqZM5jgHDsby/ebWOwgHX\nhFz/Za2yww+RU7UrkVI14gM=\n-----END PRIVATE KEY-----\n";
 
 var createJwt = function createJwt(projectId, prv_key, algorithm) {
   // Create a JWT to authenticate this device. The device will be disconnected
@@ -31428,10 +31427,15 @@ var messageType = "events" || false;
 var mqttClientId = "projects/".concat(projectId, "/locations/").concat(region, "/registries/").concat(registryId, "/devices/").concat(deviceId);
 var private_key = GoogleIoTConfig.PRIVATE_KEY;
 var username = GoogleIoTConfig.USERNAME;
+var mqttTopic = "/devices/".concat(deviceId, "/").concat(messageType);
 
-function mqttDeviceClient(req, resp) {
+function mqttDeviceClientSubscribe(req, resp) {
   // These are parameters passed into the code service
   log("Google Cloud IoT Core MQTT example.");
+  ClearBlade.init({
+    request: req
+  });
+  var messaging = ClearBlade.Messaging();
   var params = req.params;
   var options = {
     address: mqttBridgeHostname,
@@ -31439,25 +31443,28 @@ function mqttDeviceClient(req, resp) {
     client_id: mqttClientId,
     use_tls: true,
     username: username,
-    password: createJwt(projectId, private_key, algorithm)
+    password: createJwt(projectId, private_key, algorithm),
+    qos: 1
   };
-  var deviceData = params.data || {
-    data: 91,
-    deviceID: "myDevice"
-  };
-  var info = typeof deviceData !== "string" ? JSON.stringify(deviceData) : deviceData;
   var client = new MQTT.Client(options);
-  var TOPIC = "/devices/".concat(deviceId, "/").concat(messageType);
-  client.publish(TOPIC, info).then(function (resolve) {
-    log(resolve);
-    resp.success("success");
-  }, function (reason) {
-    log("failed to publish device data " + deviceData + ": " + reason.message);
-    resp.error("failure");
-  });
+  var TOPIC = mqttTopic;
+
+  function onMessage(topic, message) {
+    log("received message on topic " + topic + ": " + message);
+    messaging.publish("test", "received message on topic " + JSON.stringify(message));
+  }
+
+  function failureFn(reason) {
+    log("failed to subscribe: " + reason.message);
+    resp.error("failed to subscribe: " + reason.message);
+  }
+
+  client.subscribe("/devices/".concat(deviceId, "/config"), onMessage)["catch"](failureFn);
+  client.subscribe("/devices/".concat(deviceId, "/commands/#"), onMessage)["catch"](failureFn);
+  client.subscribe(TOPIC, onMessage)["catch"](failureFn);
 }
 
-global.mqttDeviceClient = mqttDeviceClient;
+global.mqttDeviceClientSubscribe = mqttDeviceClientSubscribe;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(4), __webpack_require__(2).Buffer))
 
 /***/ }),
