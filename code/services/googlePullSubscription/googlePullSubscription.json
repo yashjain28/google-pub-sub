@@ -1,0 +1,11 @@
+{
+  "auto_balance": false,
+  "auto_restart": false,
+  "concurrency": 0,
+  "dependencies": "log,GoogleIoTConfig,cryptoLib,http,base_64",
+  "execution_timeout": 60,
+  "logging_enabled": true,
+  "name": "googlePullSubscription",
+  "params": [],
+  "run_user": ""
+}
