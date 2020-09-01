@@ -31381,120 +31381,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var polyfill_crypto_getrandomvalues__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(polyfill_crypto_getrandomvalues__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(114);
 /* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__);
-/**
- * Type: Stream Service
- * Description: A service that does not have an execution timeout which allows for infinite execution of logic.
- * @param {CbServer.BasicReq} req
- * @param {string} req.systemKey
- * @param {string} req.systemSecret
- * @param {string} req.userEmail
- * @param {string} req.userid
- * @param {string} req.userToken
- * @param {boolean} req.isLogging
- * @param {[id: string]} req.params
- * @param {CbServer.Resp} resp
- */
 
 global.crypto = {
   getRandomValues: polyfill_crypto_getrandomvalues__WEBPACK_IMPORTED_MODULE_0___default.a
 };
 
+var algorithm = "RS256";
+var email = "pubsubnimbelink@clearblade-ipm.iam.gserviceaccount.com";
+var keyy = "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDAMO33tkXDsDFm\nb6k9aUmeixZs6ae30wMufb26TVV+G3fN0mFqRFixsUccs/FlNuLvNvQaXcj4nnie\naQA2yQiqAzSc9rcKC4pIHb6l782qPx074ILUgDwpLLuFj0yitSBhu7MVCjJllCYM\ncnkxJFu2Yb5MMsytn5X1v7YIVF+dmSDaQ6xW3QyNFMZ/qHf38YINMag0A2wGwFGl\nKE39GvXR7yD3jy0+s995XQwXAVF6zNA2Z3k1eWz5KgwhO13zF6L++t0R1t2ePcOr\nwgthp0PDNhA925KKduMI7vobJhTtyf6y6i/wA3EKt3T9oyBZxLYSSSDkhDmCTA/1\nwEzbDafxAgMBAAECggEAA4uDgCuyWrsvwL9zhDNNIn8B8WKtRMnqx5tAeiS+Bx7z\nlUN5p4T44SzaGRtFQG7ZkxGqQVLp3OgeD8dJCTmpDsBot90hytjOpVONy4Vs/48S\nzM1wgayXL30955Hulxu3LAZTIHgOg5V5eYZNBPfc4d7TV0LNSAXnCrWNYoGdPTdo\ncSGs3HOxFxIrpKJvNCFTraP9QcM18P3PN2n4U9BCkQT5pCkAri9vpqYgSfF75tNc\ndgqeboH0c5f299OM/j49aBK5LqKcSkMR240o5/A3uH4eXknpBk3Zxbbygrgke1vz\nbeVSqxyKcIY6sST2/yh8I5mBKfa7X1yD5cxoSS2MAQKBgQD7kg0lI8dEv1jZsyjI\nJMCoFwZySEKBBGjXb0yeFBJsmo4dJl72/um0avm70axaHkG9fkaZ+u1haue0VOkn\nbysYf8RsunDg/+K5HXVn3SYgQAzRX74yZLHf/t0Rgn/R7Gjm2l30JybkqFmXOmQb\nMyOnneYlN/aJFra+iKI0u/U5gQKBgQDDkzoYM+vFB72J3vEpXqxSOJhd5JhtB/ih\nBhBDEZrcvMm9F1NmdWogu1lWieyhLKBm0Hcs/mRPj3EPu7FfiY6obpic4Rh+QGSL\ntm1L24R+Uazbh53SLY+g50HT6boFIbBphHSJV97wC64MNA2unXBABvmIwgAC7ANQ\nuXfeZRZGcQKBgQDzHDgxzPqT+Co/74AYslOv3Nhw9l22WnGKx9cN6K3JYC64As3A\n+aUVok+GbuCVEipLmk1WHoTqIKqbvXa3khneihJjVGUjOoV6iPpdjfx7LAp3B4RB\nJMg0hBJVCnzFfCX/+cTT3kYasIort9Tn6Cqrn8655vQLlPSy+k1ukrkvgQKBgQCl\nkaxq9Pmykfz6DU1o0odcDCGhy3bnRwpLd9Coluzd1s2LUYX/hYNVNoZJZvZ29ErO\n/8kExFCzsiHrSeC9mry1BvwYQ8/ygh0c0lHxGGQwdIC8UTFgz8V6WI04E/Sxh3XL\nvqDR7RwFaD3ugtraatquubji+Cn+T0P3QSyjkDytYQKBgAP9h/w2HKUDIVSAPfZj\nHnh+c6rETsKYaRQHdP6anhG1hmxh5qGIGCBb540vjL6d7qP1gdPa2aMpjB4Y1pky\nc9YHdBBbDzMuOFDQdisQewARavgqStiXVK1RjKRmUXJmmoNPdJfxt3G0O5kmEFwm\nwsZJN/X3MtEIlcts7gecCnOv\n-----END PRIVATE KEY-----\n";
 
-var createJwtToken = function createJwtToken(service_account_email, prv_key) {
-  var algorithm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "RS256";
-  var scope = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "https://www.googleapis.com/auth/pubsub";
-  var expiryPeriodInSeconds = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 3600;
+var createJwt = function createJwt(service_account_email, prv_key, algorithm) {
   // Create a JWT to authenticate this device. The device will be disconnected
   // after the token expires, and will have to reconnect with a new token. The
   // audience field should always be set to the GCP project id.
-  log("creating the token object..");
   var token = {
     iat: parseInt(Date.now() / 1000),
-    exp: parseInt(Date.now() / 1000) + expiryPeriodInSeconds,
+    exp: parseInt(Date.now() / 1000) + 20 * 60,
     // 20 minutes
     //aud: projectId,
     aud: "https://oauth2.googleapis.com/token",
-    scope: scope,
+    scope: "https://www.googleapis.com/auth/pubsub",
     iss: service_account_email
   };
   var privateKey = Buffer.from(prv_key, "utf8");
-  log("jwtSigning now...");
-  var jwtSigned = jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default.a.sign(token, privateKey, {
+  return jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default.a.sign(token, privateKey, {
     algorithm: algorithm
   });
-  log("jwtSigned: ", jwtSigned);
-  return jwtSigned;
 };
 
-function fetchAccessToken(serviceAccountEmail, serviceAccountPrivateKey, algorithm, scope, expiryPeriod) {
-  return new Promise(function (resolve, reject) {
-    log("inside fetch access token method");
-    var http = Requests();
-    var jwtToken = createJwtToken(serviceAccountEmail, serviceAccountPrivateKey, algorithm, scope, expiryPeriod);
-    log("jwtToken created...", jwtToken);
-    var options = {
-      uri: "https://oauth2.googleapis.com/token",
-      body: {
-        grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-        assertion: jwtToken
-      }
-    };
-    log("Before Promise is created...");
-    http.post(options, function (err, data) {
-      if (err) {
-        return reject(data);
-      }
-
-      var retData = JSON.parse(data);
-      var access_token = retData.access_token;
-      resolve(access_token);
-    });
-  });
-}
+var jwtToken = createJwt(email, keyy, algorithm);
 
 function accessTokenManager(req, resp) {
-  ClearBlade.init({
-    request: req
-  });
-  var client = new MQTT.Client();
-  var serviceEmail = GoogleSubConfig.SERVICE_EMAIL;
-  var privateKey = GoogleSubConfig.SUBSCRIPTION_SERVICE_ACCOUNT_PRIVATE_KEY;
-  var scope = GoogleAuthConfig.SCOPE;
-  var expiryPeriod = GoogleAuthConfig.TOKEN_EXPIRY_PERIOD;
-  var refreshInterval = GoogleAuthConfig.TOKEN_REFRESH_INTERVAL;
+  // These are parameters passed into the code service
+  var params = req.params;
+  var jwtToken = createJwt(email, keyy, algorithm);
   ClearBlade.init({
     request: req
   });
   var cache = ClearBlade.Cache("AccessTokenCache");
-  var messaging = ClearBlade.Messaging();
-  var jwtToken = createJwtToken(serviceEmail, privateKey, "RS256", scope, expiryPeriod);
-  log("jwtToken created...", jwtToken);
-  resp.success(jwtToken); // function onMessage(message) {
-  //   messaging.publish("accessTokenManagerDebug", "Inside setInterval handler");
-  //   fetchAccessToken(
-  //     serviceEmail,
-  //     privateKey,
-  //     "RS256",
-  //     scope,
-  //     expiryPeriod
-  //   ).then(
-  //     (accessToken) => {
-  //       messaging.publish("token", accessToken);
-  //       cache.set("accessToken", accessToken, function (err, data) {
-  //         if (err) {
-  //           resp.error("error setting cache token");
-  //         }
-  //         log(data);
-  //       });
-  //     },
-  //     (reject) => {
-  //       messaging.publish("error", "error fetching cache token");
-  //       log("Rejection here: ", reject);
-  //       resp.error("error fetching cache token" + JSON.stringify(reject));
-  //     }
-  //   );
-  // }
-  // client.subscribe("$timer/pullTimer", onMessage);
+  cache.set("accessToken", jwtToken, function (err, data) {
+    if (err) {
+      log("Error: ", data);
+      resp.error("problem setting access token" + data);
+    }
+
+    resp.success(data);
+  });
 }
 
 global.accessTokenManager = accessTokenManager;

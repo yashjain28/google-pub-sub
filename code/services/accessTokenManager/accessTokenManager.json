@@ -1,11 +1,11 @@
 {
-    "auto_balance": false,
-    "auto_restart": false,
-    "concurrency": 0,
-    "dependencies": "log,clearblade,GoogleIoTConfig,http,mqtt",
-    "execution_timeout": 100,
-    "logging_enabled": true,
-    "name": "accessTokenManager",
-    "params": [],
-    "run_user": ""
+  "auto_balance": false,
+  "auto_restart": false,
+  "concurrency": 0,
+  "dependencies": "log,GoogleIoTConfig,cryptoLib,http,base_64,clearblade",
+  "execution_timeout": 60,
+  "logging_enabled": true,
+  "name": "accessTokenManager",
+  "params": [],
+  "run_user": ""
 }
