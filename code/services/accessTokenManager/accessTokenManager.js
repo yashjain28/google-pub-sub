@@ -31386,21 +31386,17 @@ global.crypto = {
   getRandomValues: polyfill_crypto_getrandomvalues__WEBPACK_IMPORTED_MODULE_0___default.a
 };
 
-var algorithm = "RS256";
-var email = "pubsubnimbelink@clearblade-ipm.iam.gserviceaccount.com";
-var keyy = "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDAMO33tkXDsDFm\nb6k9aUmeixZs6ae30wMufb26TVV+G3fN0mFqRFixsUccs/FlNuLvNvQaXcj4nnie\naQA2yQiqAzSc9rcKC4pIHb6l782qPx074ILUgDwpLLuFj0yitSBhu7MVCjJllCYM\ncnkxJFu2Yb5MMsytn5X1v7YIVF+dmSDaQ6xW3QyNFMZ/qHf38YINMag0A2wGwFGl\nKE39GvXR7yD3jy0+s995XQwXAVF6zNA2Z3k1eWz5KgwhO13zF6L++t0R1t2ePcOr\nwgthp0PDNhA925KKduMI7vobJhTtyf6y6i/wA3EKt3T9oyBZxLYSSSDkhDmCTA/1\nwEzbDafxAgMBAAECggEAA4uDgCuyWrsvwL9zhDNNIn8B8WKtRMnqx5tAeiS+Bx7z\nlUN5p4T44SzaGRtFQG7ZkxGqQVLp3OgeD8dJCTmpDsBot90hytjOpVONy4Vs/48S\nzM1wgayXL30955Hulxu3LAZTIHgOg5V5eYZNBPfc4d7TV0LNSAXnCrWNYoGdPTdo\ncSGs3HOxFxIrpKJvNCFTraP9QcM18P3PN2n4U9BCkQT5pCkAri9vpqYgSfF75tNc\ndgqeboH0c5f299OM/j49aBK5LqKcSkMR240o5/A3uH4eXknpBk3Zxbbygrgke1vz\nbeVSqxyKcIY6sST2/yh8I5mBKfa7X1yD5cxoSS2MAQKBgQD7kg0lI8dEv1jZsyjI\nJMCoFwZySEKBBGjXb0yeFBJsmo4dJl72/um0avm70axaHkG9fkaZ+u1haue0VOkn\nbysYf8RsunDg/+K5HXVn3SYgQAzRX74yZLHf/t0Rgn/R7Gjm2l30JybkqFmXOmQb\nMyOnneYlN/aJFra+iKI0u/U5gQKBgQDDkzoYM+vFB72J3vEpXqxSOJhd5JhtB/ih\nBhBDEZrcvMm9F1NmdWogu1lWieyhLKBm0Hcs/mRPj3EPu7FfiY6obpic4Rh+QGSL\ntm1L24R+Uazbh53SLY+g50HT6boFIbBphHSJV97wC64MNA2unXBABvmIwgAC7ANQ\nuXfeZRZGcQKBgQDzHDgxzPqT+Co/74AYslOv3Nhw9l22WnGKx9cN6K3JYC64As3A\n+aUVok+GbuCVEipLmk1WHoTqIKqbvXa3khneihJjVGUjOoV6iPpdjfx7LAp3B4RB\nJMg0hBJVCnzFfCX/+cTT3kYasIort9Tn6Cqrn8655vQLlPSy+k1ukrkvgQKBgQCl\nkaxq9Pmykfz6DU1o0odcDCGhy3bnRwpLd9Coluzd1s2LUYX/hYNVNoZJZvZ29ErO\n/8kExFCzsiHrSeC9mry1BvwYQ8/ygh0c0lHxGGQwdIC8UTFgz8V6WI04E/Sxh3XL\nvqDR7RwFaD3ugtraatquubji+Cn+T0P3QSyjkDytYQKBgAP9h/w2HKUDIVSAPfZj\nHnh+c6rETsKYaRQHdP6anhG1hmxh5qGIGCBb540vjL6d7qP1gdPa2aMpjB4Y1pky\nc9YHdBBbDzMuOFDQdisQewARavgqStiXVK1RjKRmUXJmmoNPdJfxt3G0O5kmEFwm\nwsZJN/X3MtEIlcts7gecCnOv\n-----END PRIVATE KEY-----\n";
 
-var createJwt = function createJwt(service_account_email, prv_key, algorithm) {
+var createJwt = function createJwt(service_account_email, prv_key, algorithm, scope, expiryPeriodInSecs) {
   // Create a JWT to authenticate this device. The device will be disconnected
   // after the token expires, and will have to reconnect with a new token. The
   // audience field should always be set to the GCP project id.
   var token = {
     iat: parseInt(Date.now() / 1000),
-    exp: parseInt(Date.now() / 1000) + 20 * 60,
+    exp: parseInt(Date.now() / 1000) + expiryPeriodInSecs,
     // 20 minutes
-    //aud: projectId,
     aud: "https://oauth2.googleapis.com/token",
-    scope: "https://www.googleapis.com/auth/pubsub",
+    scope: scope,
     iss: service_account_email
   };
   var privateKey = Buffer.from(prv_key, "utf8");
@@ -31409,13 +31405,14 @@ var createJwt = function createJwt(service_account_email, prv_key, algorithm) {
   });
 };
 
-var jwtToken = createJwt(email, keyy, algorithm);
-
 function accessTokenManager(req, resp) {
-  // These are parameters passed into the code service
-  var params = req.params;
   var http = Requests();
-  var jwtToken = createJwt(email, keyy, algorithm);
+  var algorithm = GoogleIoTConfig.ALGORITHM || "RS256";
+  var expiryPeriodInSecs = GoogleIoTConfig.TOKEN_EXPIRY_PERIOD_IN_SECS;
+  var email = GoogleIoTConfig.SERVICE_EMAIL;
+  var serviceAccountPrviateKey = GoogleIoTConfig.SUBSCRIPTION_SERVICE_ACCOUNT_PRIVATE_KEY;
+  var scope = GoogleIoTConfig.AUTH_SCOPE || "https://www.googleapis.com/auth/pubsub";
+  var jwtToken = createJwt(email, serviceAccountPrviateKey, algorithm, scope, expiryPeriodInSecs);
   ClearBlade.init({
     request: req
   });
