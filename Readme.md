@@ -9,41 +9,52 @@ This package is a template system to connect with Google Cloud using REST subscr
 
 ## Setup
 
-1. Setup on Gcloud:
+|Gcloud Setup Summary|
+|:---|
+|[Create Gcloud account](https://cloud.google.com/billing/docs/how-to/manage-billing-account)|
+|[Create a project in gcloud](https://cloud.google.com/resource-manager/docs/creating-managing-projects)|
+|[Create a topic(optional)](https://cloud.google.com/pubsub/docs/quickstart-console#create_a_topic)|
+|[Create a subscription for the desired topic](https://cloud.google.com/pubsub/docs/quickstart-console#add_a_subscription)|
+|[Create a service account](https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount)|
+
+1. Setup on Gcloud Detailed:
 	Following steps are assuming user already has an account and has access to Gcloud IoT Console.
-    1. If you already have a project created and also have a topic which you wish to subscribe to, then directly go to step 4.
+    1. If you already have a project created and also have a topic which you wish to subscribe to, then directly go to step 3.
     2. Perform the [Iot core quickstart](https://cloud.google.com/iot/docs/quickstart): This will involve creating a device, device registry & a certificate, creating a topic and a subscription.
-    3. Now, that you have a topic to subscribe to, create a pull subscription if you don't already have one. Follow this link to [create a pull subscription](https://cloud.google.com/pubsub/docs/pull) 
-   
+    3. Now that you have a topic in a project to subscribe to, create a pull subscription if you don't already have one. Follow this link to [create a pull subscription](https://cloud.google.com/pubsub/docs/pull). 
+    4. We use a service account to perform the pull subscription over HTTP REST. Follow the steps here to [create a service account on google and generate a key](https://developers.google.com/identity/protocols/oauth2/service-account#creatinganaccount). This key is used to generate access token that is used to perform the pull and acknowledgement. Things to note here are:
+       1. default maximum validity for access token is 3600 seconds.
+       2. The additional steps to increase the default maximum validity for access token are [here](https://cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts#extend_oauth_ttl)
 2. Setup on ClearBlade:
-   1. Get the Desired Credentials and update the [Google IoT Configuration Library](code/libraries/GoogleIoTConfig/GoogleIoTConfig.js).
-   2. Get the `PROJECT_ID`, `DEVICE_ID`, `REGISTRY_ID`, `REGION`, `MQTT_BRIDGE_HOSTNAME`, `PRIVATE_KEY` from the IoT core quickstart step. One may need to refer this section on gcloud for [generating private/public key pairs](https://cloud.google.com/iot/docs/how-tos/credentials/keys#device_authentication).
+   1. Get the Desired Credentials and update the [Google IoT Configuration Library](code/libraries/GoogleIoTConfig/GoogleIoTConfig.js). The credentials include `PROJECT_ID`, `MAX_MESSAGES_TO_PULL`, `SUBSCRIPTION_NAME`, `SUBSCRIPTION_SERVICE_ACCOUNT_PRIVATE_KEY` from the above Gcloud checklist summary.
+   2. Restart the pullSubscription service once the GoogleIoTConfig Library is updated.
+   3. Update the `pullTimer` and `updateAccessTokenTimer` based on your use-case.
 
 ## Usage
 
-As a developer, you can publish as a device to the cloud and subscribe to device config. 
+The [accessTokenManager](src/code/services/accessTokenManager/accessTokenManager.ts) service listens on a timer to fetch a new access token. The reason we do that is the expiry time of an access token is limited, a maximum of 3600s. This service updates the AccessToken in a shared cache, which is used by the [pullSubscription](code/services/pullSubscription/pullSubscription.js) service to make a pull to the subscription.
 
-* Browse to the [mqtt client publish service](code/services/mqttDeviceClient/mqttDeviceClient.js):
 
-    1. Pass in params, by clicking the `edit params` section on the code page of the ClearBlade console. The data to be published should be in the `data` key of the params object. Ex: `{ "data":"my device temperature is 90F"}`.
-    2. The MQTT topic will be generated from the above constants. 
-    3. Save and Test the service (This service only needs to be executed once).
-    4. Do a pull on the subscription you created on Glcoud to test it. The instructions for that exist in the quickstart guide as well.
-
-* Browse to the [mqtt client subscribe service](code/services/mqttDeviceClientSubscribe/mqttDeviceClientSubscribe.js):
-    1. Save and Test the service (This service will run as a stream service and wait on messages).
-    2. Check the service logs or the test topic in the messaging page on ClearBlade to the received messages, which the service forwards to ClearBlade's native MQTT broker.
+Note: One can manually update the access token in the shared cache, by simply invoking the `accessTokenManager` service.
 
 ## Assets
 
 ### Code Services
 
-* `mqttDeviceClient` -- a service which publishes data, which is passed as params when invoking the service.
-* `mqttDeviceClientSubscribe` -- a service which subscribes to the following topics by default, the values are replaced from the config library.
-  * `/devices/${deviceId}/${messageType}`
-  * `/devices/${deviceId}/config`
-  * `/devices/${deviceId}/commands/#`
+* `accessTokenManager` -- a service that uses the private for a service account along with other credentials in the `GoogleIoTConfig` library to gain the access token and update the shared cache with the latest access_token. This service runs of a timer, updateAccessTokenTimer. The frequency of execution of this timer should be less than 3600s, since the access_token has a maximum expiry time of 3600s. 
+* `pullSubscription` -- a stream service which regularly pulls on a topic. The determine of pull's is defined by the pullTimer. If the pullTimer fires every 20 seconds, then the service makes a pull to the topic on google every 20 seconds. It reads the accessToken from the shared cache which is updated regularly by the `accessTokenManager` service.
 
 ### Code Libraries
 
 `GoogleIoTConfig` -- a configuration library, which holds constants specific to Google IoT.
+
+### Timers
+
+The timers can be updated based on your use-case:
+
+* `pullTimer` - this timer defines the frequency of your pull.
+* `updateAccessTokenTimer` - this timer defines the frequency at which the access token gets updated.
+
+### Shared Cache
+
+`AccessTokenCache` - this cache stores the latest and active access_token. The expiry time for this cache is set to 3600s.
