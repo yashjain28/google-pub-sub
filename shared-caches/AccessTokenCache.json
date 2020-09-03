@@ -1,0 +1,5 @@
+{
+    "description": "This cache always hold the latest and active token",
+    "name": "AccessTokenCache",
+    "ttl": 3600
+}
