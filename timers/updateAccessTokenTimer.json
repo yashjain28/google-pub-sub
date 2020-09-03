@@ -1,0 +1,8 @@
+{
+    "description": "",
+    "frequency": 120,
+    "name": "updateAccessTokenTimer",
+    "repeats": -1,
+    "service_name": "accessTokenManager",
+    "start_time": "2020-09-01T21:38:10.392Z"
+}

@@ -29,16 +29,34 @@ const jwtToken = createJwt(email, keyy, algorithm);
 function accessTokenManager(req, resp) {
   // These are parameters passed into the code service
   var params = req.params;
-
+  const http = Requests();
   const jwtToken = createJwt(email, keyy, algorithm);
+
   ClearBlade.init({ request: req });
   const cache = ClearBlade.Cache("AccessTokenCache");
-  cache.set("accessToken", jwtToken, function (err, data) {
+
+  const options = {
+    uri: "https://oauth2.googleapis.com/token",
+    body: {
+      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      assertion: jwtToken,
+    },
+  };
+  http.post(options, function (err, data) {
     if (err) {
-      log("Error: ", data);
-      resp.error("problem setting access token" + data);
+      resp.error(data);
     }
-    resp.success(data);
+    const retData = JSON.parse(data);
+    const access_token = retData.access_token;
+
+    cache.set("accessToken", access_token, function (err, data) {
+      if (err) {
+        log("Error: ", data);
+        resp.error("problem setting access token" + data);
+      }
+      log("successfully set cache data: ", data);
+      resp.success(data);
+    });
   });
 }
 

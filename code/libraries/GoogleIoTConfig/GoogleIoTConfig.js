@@ -25,8 +25,10 @@ const GoogleSubConfig = {
   SUBSCRIPTION_SERVICE_ACCOUNT_PRIVATE_KEY: servicePrivateKey,
   PROJECT_ID: "clearblade-ipm",
   SUBSCRIPTION_NAME: "mqtt-subscription-testing",
-  //SUBSCRIPTION_URL:"projects/clearblade-ipm/subscriptions/mqtt-subscription-testing"
   PUB_SUB_API_BASE: "https://pubsub.googleapis.com/v1",
   PULL_URL_SUFFIX: ":pull",
   ACK_URL_SUFFIX: ":acknowledge",
+  MAX_MESSAGES_TO_PULL: 10,
+  FORWARD_TO_CB_TOPIC: true,
+  CB_TOPIC: "incomingFromGoogleSub",
 };
