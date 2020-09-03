@@ -2,7 +2,7 @@
   "auto_balance": false,
   "auto_restart": false,
   "concurrency": 0,
-  "dependencies": "log,GoogleIoTConfig,cryptoLib,http,base_64,clearblade",
+  "dependencies": "log,GoogleIoTConfig,cryptoLib,http,Base64,clearblade",
   "execution_timeout": 60,
   "logging_enabled": true,
   "name": "accessTokenManager",

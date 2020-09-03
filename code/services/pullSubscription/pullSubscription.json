@@ -2,7 +2,7 @@
   "auto_balance": true,
   "auto_restart": false,
   "concurrency": 1,
-  "dependencies": "log,GoogleIoTConfig,base_64,clearblade,http,mqtt",
+  "dependencies": "log,GoogleIoTConfig,Base64,clearblade,http,mqtt",
   "execution_timeout": -1,
   "logging_enabled": true,
   "name": "pullSubscription",

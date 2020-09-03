@@ -3,32 +3,16 @@
  * Description: A library that contains a key-value object to be used as constants.
  */
 
-const prv_key =
-  "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC6AlSymtAOMPP5\n2mUM7OG3DeytKFNER/nZEJ43mkVpM3TFjc/o0M/vBNAH/lD1ogJPQa5wcM6po3lK\naWqhZr7Q3W0fjP1woyPWdJSopB9nth9xgkbQ9opyJT6phn2PzyxcldmLCol9F/Bz\nFomU1xfSEIgnLnVY7rsexOyWHWnCgfrLgAONjqgKYrlbgRSOvdI1RJ+CLoXAx6ax\nEB+SxUsXrw/h7v5vC/Au2mA1LY6aNqOex+cOfu9jLkGj0NAHEuFjLxkWIxqiIKTz\nI/Py3H7LKQtVRS1loeYrzyHHtKQjuVKciJ4qhqa+DTMpXcDD2GcY4AFVoHOtpRdD\nmogoBbBBAgMBAAECggEBAJUwUWZ/LOh08vou5GWdiNwdWvr3IPHfGNG0tnG6Vnmu\nP7ZDq8H72QrIPWJr49tfeaK/931PvTHqX9oC+vdBRUKYlnF7z7qL3q6fCqzIFjhE\npquP5eSsGRa8MKofqI2ziM0pkzYl2Whvzvc/2FF8wypFAC8M4CnYMFTZdThhlvXd\nk5HnfT6vY6FsIyZegS8a3DYRiFSZoDabW3dIBYkmdKfMCPeRSoAsKDwVgnR6Kl9R\nexCvxgM15OdSFQWBqCXzZu3hhXrsKMENb5hBIu0RK1CVG368S+mpHVYfRdwe6lbw\nyVxIKhFH1KcvN+NxbePtmxT5yRLmjVPOOhUm/n2y/AECgYEA61e0s2/VBBm9jtqn\naiY5Qlrcn/2pJ6xVguqm2gn9dxzXam9HPe9QRwkZjXugJp/jFgAWUA0W8PivvQbz\ntWmNEvr7C+OciPfeHyZ/o8J/hTGq893G5F/+cjwV0EV2rGu9gwUuuURhOMwlH7yE\nKEnX5RbK8FdtBkgkKQth+2NflbECgYEAylYSHHEey0Sq/PHLCZ+mHI9bXNw8BHxN\nHaAsJ9vn9oI7Z6L1CuPLSFNeh3DEre1LVxAAPbWgIzWvpcCAOtu6TaaZTChoMx4p\nRajfA3ZCtnWgPdNd5Rgo8RESiqFKgF50Ad3TdrUVchRoddSPe7xHYnSvU5hgHZw6\nXHI66KgfF5ECgYEArxFfatwWKia7zDj7sQseLS5KUPnxi4G3WtwTor8rvh/GX3bI\nGFqd7TnnuEfuqszlsMf/0Szrk/ZrRMKXKKyMNUJe3klDeOBqa+HHsZpOIlcARMkF\n231NWs03rOb/kOPU5lJEn60uZYH3W9Rwu0ezQsfhz0g54iJoQ+Aj003pHQECgYAv\nXC4pEiFPGuebBU2tFv1euf98oOA7fIzgXll3ivWksZ8OBwqsXd17NGhv82lV/LEh\n09D6oMS2+R4AAisBm+TjwBcpyFt7e5fVgk2RFeFPrACx+AOGWD1dD83zPQWfPnyQ\n40dYBdLbPQOmcPaU0+ExnnZbbtMwmxzd/q7jPlbowQKBgQCRk2PL0x/nxtCW8T7m\npbGqYLignO9vXJJtLYOwMwhg6xLU2iWPKfqY4gSLFXcYLyk6rg1C+jVUlWy9eN2r\nyLxhATvbdovB3v2tQTl5gACYYtRW2f6PVZTtLLY/lmqexvRaZ8L3NNHjNguMRIP1\njPEC2aDHB8xh72mXutMOYEE5Cw==\n-----END PRIVATE KEY-----";
-
-const GoogleIoTConfig = {
-  PROJECT_ID: "clearblade-ipm",
-  DEVICE_ID: "mqtt-device-2",
-  REGISTRY_ID: "mqtt-testing-registry",
-  REGION: "us-central1",
-  ALGORITHM: "RS256",
-  MQTT_BRIDGE_HOSTNAME: "mqtt.googleapis.com",
-  MESSAGE_TYPE: "events",
-  PRIVATE_KEY: prv_key,
-  USERNAME: "testing1234",
-};
-
-const servicePrivateKey =
-  "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDAMO33tkXDsDFm\nb6k9aUmeixZs6ae30wMufb26TVV+G3fN0mFqRFixsUccs/FlNuLvNvQaXcj4nnie\naQA2yQiqAzSc9rcKC4pIHb6l782qPx074ILUgDwpLLuFj0yitSBhu7MVCjJllCYM\ncnkxJFu2Yb5MMsytn5X1v7YIVF+dmSDaQ6xW3QyNFMZ/qHf38YINMag0A2wGwFGl\nKE39GvXR7yD3jy0+s995XQwXAVF6zNA2Z3k1eWz5KgwhO13zF6L++t0R1t2ePcOr\nwgthp0PDNhA925KKduMI7vobJhTtyf6y6i/wA3EKt3T9oyBZxLYSSSDkhDmCTA/1\nwEzbDafxAgMBAAECggEAA4uDgCuyWrsvwL9zhDNNIn8B8WKtRMnqx5tAeiS+Bx7z\nlUN5p4T44SzaGRtFQG7ZkxGqQVLp3OgeD8dJCTmpDsBot90hytjOpVONy4Vs/48S\nzM1wgayXL30955Hulxu3LAZTIHgOg5V5eYZNBPfc4d7TV0LNSAXnCrWNYoGdPTdo\ncSGs3HOxFxIrpKJvNCFTraP9QcM18P3PN2n4U9BCkQT5pCkAri9vpqYgSfF75tNc\ndgqeboH0c5f299OM/j49aBK5LqKcSkMR240o5/A3uH4eXknpBk3Zxbbygrgke1vz\nbeVSqxyKcIY6sST2/yh8I5mBKfa7X1yD5cxoSS2MAQKBgQD7kg0lI8dEv1jZsyjI\nJMCoFwZySEKBBGjXb0yeFBJsmo4dJl72/um0avm70axaHkG9fkaZ+u1haue0VOkn\nbysYf8RsunDg/+K5HXVn3SYgQAzRX74yZLHf/t0Rgn/R7Gjm2l30JybkqFmXOmQb\nMyOnneYlN/aJFra+iKI0u/U5gQKBgQDDkzoYM+vFB72J3vEpXqxSOJhd5JhtB/ih\nBhBDEZrcvMm9F1NmdWogu1lWieyhLKBm0Hcs/mRPj3EPu7FfiY6obpic4Rh+QGSL\ntm1L24R+Uazbh53SLY+g50HT6boFIbBphHSJV97wC64MNA2unXBABvmIwgAC7ANQ\nuXfeZRZGcQKBgQDzHDgxzPqT+Co/74AYslOv3Nhw9l22WnGKx9cN6K3JYC64As3A\n+aUVok+GbuCVEipLmk1WHoTqIKqbvXa3khneihJjVGUjOoV6iPpdjfx7LAp3B4RB\nJMg0hBJVCnzFfCX/+cTT3kYasIort9Tn6Cqrn8655vQLlPSy+k1ukrkvgQKBgQCl\nkaxq9Pmykfz6DU1o0odcDCGhy3bnRwpLd9Coluzd1s2LUYX/hYNVNoZJZvZ29ErO\n/8kExFCzsiHrSeC9mry1BvwYQ8/ygh0c0lHxGGQwdIC8UTFgz8V6WI04E/Sxh3XL\nvqDR7RwFaD3ugtraatquubji+Cn+T0P3QSyjkDytYQKBgAP9h/w2HKUDIVSAPfZj\nHnh+c6rETsKYaRQHdP6anhG1hmxh5qGIGCBb540vjL6d7qP1gdPa2aMpjB4Y1pky\nc9YHdBBbDzMuOFDQdisQewARavgqStiXVK1RjKRmUXJmmoNPdJfxt3G0O5kmEFwm\nwsZJN/X3MtEIlcts7gecCnOv\n-----END PRIVATE KEY-----\n";
+const servicePrivateKey = "<PRIVATE_KEY>";
 
 const GoogleSubConfig = {
   SUBSCRIPTION_SERVICE_ACCOUNT_PRIVATE_KEY: servicePrivateKey,
-  PROJECT_ID: "clearblade-ipm",
-  SUBSCRIPTION_NAME: "mqtt-subscription-testing",
+  PROJECT_ID: "<PROJECT_ID>",
+  SUBSCRIPTION_NAME: "<SUBSCRIPTION_NAME>",
   PUB_SUB_API_BASE: "https://pubsub.googleapis.com/v1",
   PULL_URL_SUFFIX: ":pull",
   ACK_URL_SUFFIX: ":acknowledge",
-  MAX_MESSAGES_TO_PULL: 10,
+  MAX_MESSAGES_TO_PULL: 10, // refer https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.subscriptions/pull
   FORWARD_TO_CB_TOPIC: true,
-  CB_TOPIC: "incomingFromGoogleSub",
+  CB_TOPIC: "incomingFromGoogleSub", // can be replaced with one's own
 };
