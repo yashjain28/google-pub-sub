@@ -1,6 +1,6 @@
 {
-  "name": "google-iot-mqtt-client",
-  "description": "This is an MQTT client library to publish messages as a device to Google Cloud IoT from ClearBlade platform",
+  "name": "google-pub-sub",
+  "description": "This is an MQTT client library to subscribe as a service account user to Google Cloud IoT from ClearBlade platform",
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
@@ -111,10 +111,10 @@
     "typeface-roboto": "0.0.75",
     "uuid": "^3.4.0"
   },
-  "main": "code/services/mqttDeviceClient",
+  "main": "code/services/pullSubscription",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yashjain28/google-iot-mqtt-client.git"
+    "url": "git+https://github.com/yashjain28/google-pub-sub.git"
   },
   "asset_types": [
     "Code Libraries",
@@ -123,8 +123,12 @@
   "keywords": [
     "mqtt",
     "client",
-    "publish",
-    "device",
+    "subscribe",
+    "service",
+    "account",
+    "auth",
+    "oauth",
+    "topic",
     "google",
     "iot",
     "cloud",
@@ -143,9 +147,9 @@
   "author": "Yash Jain <community@clearblade.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yashjain28/google-iot-mqtt-client/issues"
+    "url": "https://github.com/yashjain28/google-pub-sub/issues"
   },
-  "homepage": "https://github.com/yashjain28/google-iot-mqtt-client#readme",
-  "image_url": "https://raw.githubusercontent.com/yashjain28/google-iot-mqtt-client/master/banner.png",
+  "homepage": "https://github.com/yashjain28/google-pub-sub#readme",
+  "image_url": "https://raw.githubusercontent.com/yashjain28/google-pub-sub/master/banner.png",
   "private": false
 }

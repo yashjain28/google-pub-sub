@@ -1,9 +1,9 @@
 {
-    "auth": true,
-    "description": "",
-    "messaging_url": "localhost.clearblade.com:1883",
-    "name": "google-iot-mqtt-client-org",
-    "platform_url": "https://localhost.clearblade.com",
-    "system_key": "a2d781f40bc6c285cbfe859499fb01",
-    "system_secret": "A2D781F40B9C8B859DF2C581FC28"
+  "auth": true,
+  "description": "",
+  "messaging_url": "localhost.clearblade.com:1883",
+  "name": "google-pub-sub",
+  "platform_url": "https://localhost.clearblade.com",
+  "system_key": "a2d781f40bc6c285cbfe859499fb01",
+  "system_secret": "A2D781F40B9C8B859DF2C581FC28"
 }
