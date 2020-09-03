@@ -1,9 +1,9 @@
 
-# ipm package: google-iot-mqtt-client
+# ipm package: google-pub-sub
 
 ## Overview
 
-This package is a template system to connect with Google Cloud using MQTT to publish data & subscribe to device config data. It involves authenticating and then publishing data as a device.
+This package is a template system to connect with Google Cloud using REST subscribe to topics. It uses the Pull Subscription approach for subscription. 
 
 [Browse ipm Packages](https://ipm.clearblade.com)
 
@@ -11,7 +11,9 @@ This package is a template system to connect with Google Cloud using MQTT to pub
 
 1. Setup on Gcloud:
 	Following steps are assuming user already has an account and has access to Gcloud IoT Console.
-    1. First perform the [Iot core quickstart](https://cloud.google.com/iot/docs/quickstart): This will involve creating a device, device registry & a certificate, creating a topic and a subscription.
+    1. If you already have a project created and also have a topic which you wish to subscribe to, then directly go to step 4.
+    2. Perform the [Iot core quickstart](https://cloud.google.com/iot/docs/quickstart): This will involve creating a device, device registry & a certificate, creating a topic and a subscription.
+    3. Now, that you have a topic to subscribe to, create a pull subscription if you don't already have one. Follow this link to [create a pull subscription](https://cloud.google.com/pubsub/docs/pull) 
    
 2. Setup on ClearBlade:
    1. Get the Desired Credentials and update the [Google IoT Configuration Library](code/libraries/GoogleIoTConfig/GoogleIoTConfig.js).
